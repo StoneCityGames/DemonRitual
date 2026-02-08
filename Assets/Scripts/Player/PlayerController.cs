@@ -29,9 +29,9 @@ public class PlayerController : MonoBehaviour
 
     [Space]
 
-    [SerializeField, Tooltip("Maximum horizontal movement speed while in the air (units per second)")] private float _airSpeed = 12f;
-    [SerializeField, Tooltip("Rate of horizontal acceleration while airborne")] private float _airAcceleration = 10f;
-    [SerializeField, Tooltip("Air resistance/friction. Much lower than ground for a floaty, momentum-based feel")] private float _airFriction = 4f;
+    [SerializeField, Tooltip("Maximum horizontal movement speed while in the air (units per second)")] private float _airSpeed = 5f;
+    [SerializeField, Tooltip("Rate of horizontal acceleration while airborne")] private float _airAcceleration = 8f;
+    [SerializeField, Tooltip("Air resistance/friction. Much lower than ground for a floaty, momentum-based feel")] private float _airFriction = 0.1f;
 
     [Space]
 
@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
     private bool _wantsToSprint = false;
     private Vector2 _moveInput = Vector2.zero;
     private float _mouseSensitivityMultipler = 1f;
-
-    private float _maxSpeed = 0f;
 
     private void Awake()
     {
@@ -203,21 +201,21 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyFriction(float friction)
     {
-        float groundSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
-        if (groundSpeed < 0.01f)
+        float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
+        if (horizontalSpeed < 0.01f)
         {
             _velocity = Vector3.Scale(_velocity, Vector3.up);
             return;
         }
 
-        float control = groundSpeed;
+        float control = horizontalSpeed;
         if (_movementState == MovementState.Ground)
         {
-            control = groundSpeed < _groundStopSpeed ? _groundStopSpeed : groundSpeed;
+            control = horizontalSpeed < _groundStopSpeed ? _groundStopSpeed : horizontalSpeed;
         }
         float drop = control * friction * Time.deltaTime;
 
-        float newSpeed = Mathf.Max(groundSpeed - drop, 0.0f) / groundSpeed;
+        float newSpeed = Mathf.Max(horizontalSpeed - drop, 0.0f) / horizontalSpeed;
         _velocity.x *= newSpeed;
         _velocity.z *= newSpeed;
     }
