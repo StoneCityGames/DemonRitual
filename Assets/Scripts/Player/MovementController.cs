@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+public class MovementController : MonoBehaviour
 {
     private enum MovementState
     {
@@ -9,9 +9,7 @@ public class PlayerController : MonoBehaviour
         Air
     }
 
-    [SerializeField, Tooltip("The physical body transform of the player. Used for movement and collision")] private Transform _body;
-    [SerializeField, Tooltip("The camera/view transform. Typically a child of the body. Controls where the player looks")] private Transform _camera;
-    [SerializeField, Tooltip("Reference to a PlayerSettings ScriptableObject for shared game configuration")] private PlayerSettings _playerSettings;
+    [SerializeField] private Transform _body;
 
     [Header("Movement")]
     [SerializeField, Tooltip("Base maximum movement speed when walking on the ground (units per second)")] private float _groundSpeed = 12f;
@@ -25,7 +23,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Rate at which the player accelerates to sprint speed")] private float _groundSprintAcceleration = 14f;
     [SerializeField, Tooltip("Friction applied specifically when sprinting. Can differ from walking friction")] private float _groundSprintFriction = 4f;
     [SerializeField, Tooltip("Sideways movement speed when sprinting")] private float _groundSprintSidewaysSpeed = 4f;
-    [SerializeField, Tooltip("The multiplier of the mouse sensitivity when sprinting")] private float _groundSprintMouseSensitivityMultiplier = 0.2f;
 
     [Space]
 
@@ -40,87 +37,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("The height (in world units) the player's jump will reach")] private float _jumpHeight = 1.62f;
     [SerializeField, Tooltip("Downward force applied when the player's head hits a ceiling")] private float _ceilingBumpForce = 1f;
 
-    private DefaultInputSystem _inputSystem;
+    public bool IsSprinting { get { return _wantsToSprint; } }
+
     private CharacterController _characterController;
 
-    private Vector2 _rotationAngles = Vector2.zero;
     private float _lastGroundTime = 0f;
     private MovementState _movementState = MovementState.Ground;
     private Vector3 _velocity = Vector3.zero;
     private bool _wantsToJump = false;
     private bool _wantsToSprint = false;
     private Vector2 _moveInput = Vector2.zero;
-    private float _mouseSensitivityMultipler = 1f;
 
-    private void Awake()
+    public void Think(DefaultInputSystem input)
     {
-        _inputSystem = new DefaultInputSystem();
-    }
-
-    private void Start()
-    {
-        _characterController = GetComponent<CharacterController>();
-    }
-
-    private void Update()
-    {
-        HandleLookRotation();
-        HandleMovement();
-    }
-
-    private void OnEnable()
-    {
-        _inputSystem.Enable();
-        _inputSystem.Player.Sprint.started += OnSptringStarted;
-        _inputSystem.Player.Sprint.canceled += OnSprintCanceled;
-    }
-
-    private void OnDisable()
-    {
-        _inputSystem.Disable();
-        _inputSystem.Player.Sprint.started -= OnSptringStarted;
-        _inputSystem.Player.Sprint.canceled -= OnSprintCanceled;
-    }
-
-    private void OnSptringStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        _wantsToSprint = true;
-        _mouseSensitivityMultipler = _groundSprintMouseSensitivityMultiplier;
-    }
-
-    private void OnSprintCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        _wantsToSprint = false;
-        _mouseSensitivityMultipler = 1f;
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        HandleCeilingCollision(hit);
-    }
-
-    private void HandleLookRotation()
-    {
-        Vector2 lookInput = _inputSystem.Player.Look.ReadValue<Vector2>();
-        Vector2 lookInputScaled = Time.deltaTime * _playerSettings.MouseSensitivity * _mouseSensitivityMultipler * lookInput;
-
-        _rotationAngles.x += lookInputScaled.y;
-        _rotationAngles.x = Mathf.Clamp(_rotationAngles.x, -90.0f, 90.0f);
-        _rotationAngles.y += lookInputScaled.x;
-
-        _camera.localRotation = Quaternion.Euler(_rotationAngles.x, 0.0f, 0.0f);
-        _body.rotation = Quaternion.Euler(0.0f, _rotationAngles.y, 0.0f);
-    }
-
-    private void HandleMovement()
-    {
-        _moveInput = _inputSystem.Player.Move.ReadValue<Vector2>();
+        _moveInput = input.Player.Move.ReadValue<Vector2>();
         Vector3 wishDir = _body.forward * _moveInput.y + _body.right * _moveInput.x;
         wishDir.Normalize();
 
         UpdateMovementState();
 
-        if (_inputSystem.Player.Jump.WasPerformedThisFrame())
+        if (input.Player.Jump.WasPerformedThisFrame())
         {
             _wantsToJump = true;
         }
@@ -136,6 +72,26 @@ public class PlayerController : MonoBehaviour
         }
 
         _characterController.Move(_velocity * Time.deltaTime);
+    }
+
+    public void HandleColliderHit(ControllerColliderHit hit)
+    {
+        HandleCeilingCollision(hit);
+    }
+
+    public void OnSprintStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _wantsToSprint = true;
+    }
+
+    public void OnSprintCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _wantsToSprint = false;
+    }
+
+    private void Start()
+    {
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void UpdateMovementState()
