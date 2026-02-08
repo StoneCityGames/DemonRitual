@@ -58,9 +58,9 @@ MonoBehaviour:
   _groundSprintFriction: 4
   _groundSprintSidewaysSpeed: 4
   _groundSprintMouseSensitivityMultiplier: 0.2
-  _airSpeed: 12
-  _airAcceleration: 10
-  _airFriction: 4
+  _airSpeed: 5
+  _airAcceleration: 8
+  _airFriction: 0.1
   _coyoteTime: 0.2
   _gravity: 28.6
   _jumpHeight: 1.62

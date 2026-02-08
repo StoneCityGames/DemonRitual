@@ -760,18 +760,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5471918276790583946, guid: a3add0c59ff515f4493a02c0644939ef, type: 3}
-      propertyPath: _airSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5471918276790583946, guid: a3add0c59ff515f4493a02c0644939ef, type: 3}
-      propertyPath: _airFriction
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5471918276790583946, guid: a3add0c59ff515f4493a02c0644939ef, type: 3}
-      propertyPath: _airAcceleration
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 6657100319478514053, guid: a3add0c59ff515f4493a02c0644939ef, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
