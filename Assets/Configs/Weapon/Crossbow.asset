@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Crossbow
   m_EditorClassIdentifier: Assembly-CSharp::WeaponConfig
   _damage: 75
-  _reloadTime: 0.5
+  _reloadTime: 0.6
   _maxDistance: 50
+  _firingSound: {fileID: 8300000, guid: c226667a44c75b849b9f0a846fe69e96, type: 3}
