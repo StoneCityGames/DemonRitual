@@ -1,25 +1,18 @@
 using UnityEngine;
 
+[RequireComponent(typeof(HealthComponent))]
 public class TrainingTarget : Enemy
 {
     [SerializeField, Tooltip("Respawn time in seconds")] private float _respawnTime = 1f;
-    [SerializeField] private float _maxHealth = 100f;
-
-    private float _currentHealth = 100f;
-
-    private void Awake()
-    {
-        ResetHealth();
-    }
 
     public override bool IsDead()
     {
-        return _currentHealth <= 0f;
+        return !healthComponent.IsAlive();
     }
 
     public override void TakeDamage(float damage)
     {
-        _currentHealth = Mathf.Max(_currentHealth - damage, 0f);
+        healthComponent.SetHealth(healthComponent.CurrentHealth - damage);
         if (IsDead())
         {
             Die();
@@ -35,11 +28,6 @@ public class TrainingTarget : Enemy
     private void Respawn()
     {
         gameObject.SetActive(true);
-        ResetHealth();
-    }
-
-    private void ResetHealth()
-    {
-        _currentHealth = _maxHealth;
+        healthComponent.ResetHealth();
     }
 }

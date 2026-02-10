@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7325930659779909172}
   - component: {fileID: 9064101990535726663}
   - component: {fileID: 3110818011136694680}
+  - component: {fileID: 1917320248704911673}
   m_Layer: 0
   m_Name: TrainingTarget
   m_TagString: Untagged
@@ -128,4 +129,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingTarget
   _respawnTime: 1
+--- !u!114 &1917320248704911673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468524782121166458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d84b466692178439a9197d89903b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
   _maxHealth: 50
