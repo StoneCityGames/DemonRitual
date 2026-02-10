@@ -192,11 +192,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cf3bd9e83b813a4c8dc49bc4417c659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Crossbow
-  _config: {fileID: 11400000, guid: aea144dac1cdd484987fce4bdd8c9d8e, type: 2}
+  _defaultMode:
+    _damage: 50
+    _reloadTime: 0.6
+    _maxDistance: 50
+    _firingSound: {fileID: 8300000, guid: c226667a44c75b849b9f0a846fe69e96, type: 3}
+    _layerMask:
+      serializedVersion: 2
+      m_Bits: 55
+  _alternateMode:
+    _damage: 150
+    _reloadTime: 1.5
+    _maxDistance: 50
+    _firingSound: {fileID: 8300000, guid: c226667a44c75b849b9f0a846fe69e96, type: 3}
+    _layerMask:
+      serializedVersion: 2
+      m_Bits: 55
   _origin: {fileID: 4076476065658924409}
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 55
   _audioSource: {fileID: 8086752002062453428}
 --- !u!82 &8086752002062453428
 AudioSource:
