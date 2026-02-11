@@ -28,8 +28,8 @@ public class WeaponTrace : MonoBehaviour
         );
 
         _lineRenderer.colorGradient = gradient;
-        _lineRenderer.startWidth = 0.1f;
-        _lineRenderer.endWidth = 0.1f;
+        _lineRenderer.startWidth = _startWidth;
+        _lineRenderer.endWidth = _endWidth;
         _lineRenderer.positionCount = 2;
     }
 
