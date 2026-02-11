@@ -36,6 +36,17 @@ public class Player : MonoBehaviour
         _input.Player.Sprint.canceled += _movementController.OnSprintCanceled;
 
         _input.Player.Attack.performed += OnAttackPermormed;
+        _input.Player.AttackAlternate.performed += OnAlternateAttackPerformed;
+    }
+
+    private void OnAlternateAttackPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (_movementController.IsSprinting)
+        {
+            return;
+        }
+
+        _weaponController.ShootAlternate();
     }
 
     private void OnAttackPermormed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -47,6 +58,7 @@ public class Player : MonoBehaviour
 
         _weaponController.Shoot();
     }
+
 
     private void OnDisable()
     {

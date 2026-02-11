@@ -8,5 +8,5 @@ public abstract class Weapon : MonoBehaviour
 
     public abstract void ShootAlternate();
 
-    public abstract void CanShootAlternate();
+    public abstract bool CanShootAlternate();
 }

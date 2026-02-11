@@ -13,4 +13,14 @@ public class WeaponController : MonoBehaviour
 
         currentWeapon.Shoot();
     }
+
+    public void ShootAlternate()
+    {
+        if (!currentWeapon.CanShootAlternate())
+        {
+            return;
+        }
+
+        currentWeapon.ShootAlternate();
+    }
 }
