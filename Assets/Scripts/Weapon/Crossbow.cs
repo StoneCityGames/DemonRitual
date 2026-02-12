@@ -113,7 +113,7 @@ public class Crossbow : Weapon
     private HitInfo TraceShot(CrossbowModeConfig mode)
     {
         bool isHit = Physics.Raycast(_origin.position, _origin.forward, out RaycastHit hitInfo, mode.MaxDistance, mode.LayerMask);
-        return new HitInfo { Collider = hitInfo.collider, IsHit = isHit, Point = isHit ? hitInfo.point : _origin.forward * mode.MaxDistance };
+        return new HitInfo { Collider = hitInfo.collider, IsHit = isHit, Point = isHit ? hitInfo.point : _origin.position + _origin.forward * mode.MaxDistance };
     }
 
     private void DrawTrace(Vector3 start, Vector3 end)
