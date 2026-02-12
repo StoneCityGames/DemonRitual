@@ -359,6 +359,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Explosion
   _particlePrefab: {fileID: 123197172389833367, guid: 3cfc6c902891e564ea6a7908bc1514dc, type: 3}
+  _explosionSound: {fileID: 8300000, guid: d967b8706d813704f9fcaa1343737b07, type: 3}
+  _explosionSoundVolume: 1
 --- !u!1 &7550887011577784954
 GameObject:
   m_ObjectHideFlags: 0

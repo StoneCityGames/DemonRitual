@@ -3,6 +3,8 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     [SerializeField] private GameObject _particlePrefab;
+    [SerializeField] private AudioClip _explosionSound;
+    [SerializeField] private float _explosionSoundVolume = 1f;
 
     private ParticleSystem[] _particleSystems = new ParticleSystem[4];
     private int _currentParticleIndex = 0;
@@ -31,6 +33,7 @@ public class Explosion : MonoBehaviour
             particle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
         particle.Play();
+        AudioSource.PlayClipAtPoint(_explosionSound, position, _explosionSoundVolume);
 
         _currentParticleIndex = (_currentParticleIndex + 1) % _particleSystems.Length;
     }
