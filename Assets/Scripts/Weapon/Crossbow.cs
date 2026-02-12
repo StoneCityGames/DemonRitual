@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Explosion))]
 public class Crossbow : Weapon
 {
     [Serializable]
@@ -23,8 +24,10 @@ public class Crossbow : Weapon
     private class CrossbowAlternateModeConfig : CrossbowModeConfig
     {
         [SerializeField, Tooltip("An area radius of explosion")] private float _explosionRadius = 3f;
+        [SerializeField, Tooltip("Layer mask of the obstacles")] private LayerMask _obstacleLayerMask;
 
         public float ExplosionRadius { get { return _explosionRadius; } }
+        public LayerMask ObstacleLayerMask { get { return _obstacleLayerMask; } }
     }
 
     private struct HitInfo
@@ -45,10 +48,13 @@ public class Crossbow : Weapon
     private float _lastAlternateModeShootTime = 0f;
     private readonly Collider[] _colliders = new Collider[256];
     private readonly WeaponTrace[] _weaponTraces = new WeaponTrace[8];
+    private Explosion _explosion;
     private int _currentWeaponTraceIndex = 0;
 
     private void Start()
     {
+        _explosion = GetComponent<Explosion>();
+
         AllocateWeaponTraces();
     }
 
@@ -69,14 +75,11 @@ public class Crossbow : Weapon
         HitInfo hitInfo = TraceShot(_defaultMode);
         if (hitInfo.IsHit)
         {
-            Debug.Log($"Hit object {hitInfo.Collider.gameObject}");
+            if (hitInfo.Collider.TryGetComponent(out Enemy enemy))
             {
-                if (hitInfo.Collider.TryGetComponent(out Enemy enemy))
-                {
-                    enemy.TakeDamage(_defaultMode.Damage);
-                }
+                Debug.Log($"Hit enemy {enemy}");
+                enemy.TakeDamage(_defaultMode.Damage);
             }
-
         }
 
         DrawTrace(_traceOrigin.position, hitInfo.Point);
@@ -95,14 +98,14 @@ public class Crossbow : Weapon
             for (int i = 0; i < numHits; i++)
             {
                 Collider collider = _colliders[i];
-
-                Debug.Log($"Hit object {collider.gameObject}");
-
-                if (collider.TryGetComponent(out Enemy enemy))
+                if (collider.TryGetComponent(out Enemy enemy) && enemy.IsColliderVisibleFrom(hitInfo.Point, _alternateMode.ObstacleLayerMask))
                 {
+                    Debug.Log($"Hit enemy {enemy}");
                     enemy.TakeDamage(_alternateMode.Damage);
                 }
             }
+
+            _explosion.PlayAt(hitInfo.Point);
         }
 
         DrawTrace(_traceOrigin.position, hitInfo.Point);

@@ -5,11 +5,13 @@ public abstract class Enemy : MonoBehaviour
 {
     protected HealthComponent healthComponent;
 
-    private void Start()
+    protected void Start()
     {
         healthComponent = GetComponent<HealthComponent>();
     }
 
     public abstract void TakeDamage(float damage);
     public abstract bool IsDead();
+
+    public abstract bool IsColliderVisibleFrom(Vector3 point, LayerMask obstacleMask);
 }

@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 1616034334050134141}
   - component: {fileID: 1081823051667689476}
   - component: {fileID: 8086752002062453428}
+  - component: {fileID: 8611142123973853255}
   m_Layer: 6
   m_Name: Crossbow
   m_TagString: Untagged
@@ -231,7 +232,7 @@ MonoBehaviour:
     _firingSound: {fileID: 8300000, guid: c226667a44c75b849b9f0a846fe69e96, type: 3}
     _layerMask:
       serializedVersion: 2
-      m_Bits: 55
+      m_Bits: 384
   _alternateMode:
     _damage: 150
     _reloadTime: 1.5
@@ -239,8 +240,11 @@ MonoBehaviour:
     _firingSound: {fileID: 8300000, guid: c226667a44c75b849b9f0a846fe69e96, type: 3}
     _layerMask:
       serializedVersion: 2
-      m_Bits: 55
+      m_Bits: 384
     _explosionRadius: 3
+    _obstacleLayerMask:
+      serializedVersion: 2
+      m_Bits: 128
   _origin: {fileID: 4076476065658924409}
   _audioSource: {fileID: 8086752002062453428}
   _tracePrefab: {fileID: 7944768504144804950, guid: 1d90ab4ae4f6c9143836b0becc3d70e5, type: 3}
@@ -342,6 +346,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8611142123973853255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037240306861823519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c5cc356df972b24ca495c3468216f8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Explosion
+  _particlePrefab: {fileID: 123197172389833367, guid: 3cfc6c902891e564ea6a7908bc1514dc, type: 3}
 --- !u!1 &7550887011577784954
 GameObject:
   m_ObjectHideFlags: 0
