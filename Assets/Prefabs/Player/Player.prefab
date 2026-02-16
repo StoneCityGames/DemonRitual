@@ -9,12 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6657100319478514053}
+  - component: {fileID: 2454817992022018587}
   - component: {fileID: 6431502050682737224}
   - component: {fileID: 7619824460367729305}
   - component: {fileID: 5471918276790583946}
-  - component: {fileID: 2454817992022018587}
   - component: {fileID: 1134521227377621785}
   - component: {fileID: 1139800831579669918}
+  - component: {fileID: 1851353106993130496}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -40,6 +41,31 @@ Transform:
   - {fileID: 5383723205160402732}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &2454817992022018587
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270517572440695480}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6431502050682737224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -96,31 +122,6 @@ MonoBehaviour:
   _gravity: 28.6
   _jumpHeight: 1.62
   _ceilingBumpForce: 1
---- !u!143 &2454817992022018587
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270517572440695480}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1134521227377621785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +148,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthComponent
   _maxHealth: 200
+--- !u!114 &1851353106993130496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270517572440695480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 724732f85f62e354db4c62d3e5b0bd00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeController
+  _camera: {fileID: 4076476065658924409}
+  _damage: 100
+  _distance: 3
+  _hitLayer:
+    serializedVersion: 2
+    m_Bits: 384
 --- !u!1 &999844540393894567
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,11 +3,13 @@ using UnityEngine;
 [RequireComponent(typeof(LookController))]
 [RequireComponent(typeof(MovementController))]
 [RequireComponent(typeof(WeaponController))]
+[RequireComponent(typeof(MeleeController))]
 public class Player : MonoBehaviour
 {
     private MovementController _movementController;
     private LookController _lookController;
     private WeaponController _weaponController;
+    private MeleeController _meleeController;
     private DefaultInputSystem _input;
 
     private void Awake()
@@ -17,6 +19,7 @@ public class Player : MonoBehaviour
         _movementController = GetComponent<MovementController>();
         _lookController = GetComponent<LookController>();
         _weaponController = GetComponent<WeaponController>();
+        _meleeController = GetComponent<MeleeController>();
     }
 
     private void Update()
@@ -37,6 +40,17 @@ public class Player : MonoBehaviour
 
         _input.Player.Attack.performed += OnAttackPermormed;
         _input.Player.AttackAlternate.performed += OnAlternateAttackPerformed;
+        _input.Player.MeleeAttack.performed += OnMeleeAttackPerformed;
+    }
+
+    private void OnMeleeAttackPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (_movementController.IsSprinting)
+        {
+            return;
+        }
+
+        _meleeController.Attack();
     }
 
     private void OnAlternateAttackPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
