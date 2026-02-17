@@ -5,13 +5,16 @@ public class MeleeController : MonoBehaviour
     [SerializeField] private Transform _camera;
     [SerializeField] private float _damage = 100f;
     [SerializeField] private float _distance = 3f;
+    [SerializeField] private int _maxHits = 1;
     [SerializeField] private LayerMask _hitLayer;
 
-    bool _canAttack = false;
+    public int MaxHits { get { return _maxHits; } }
+
+    private int _currentHits = 0;
 
     public void Attack()
     {
-        if (!_canAttack)
+        if (_currentHits >= _maxHits)
         {
             return;
         }
@@ -19,18 +22,22 @@ public class MeleeController : MonoBehaviour
         AttackRaycast();
     }
 
-    public void SetCanAttack(bool canAttack)
+    public void SetCurrentHits(int hits)
     {
-        _canAttack = canAttack;
+        _currentHits = Mathf.Clamp(hits, 0, _maxHits);
     }
 
     private void AttackRaycast()
     {
         bool isHit = Physics.Raycast(_camera.transform.position, _camera.transform.forward, out RaycastHit hitInfo, _distance, _hitLayer);
-        if (isHit && hitInfo.collider.gameObject.TryGetComponent(out Enemy enemy))
+        if (isHit)
         {
-            Debug.Log($"Hit enemy {enemy} with melee attack");
-            enemy.TakeDamage(_damage);
+            if (hitInfo.collider.gameObject.TryGetComponent(out Enemy enemy))
+            {
+                Debug.Log($"Hit enemy {enemy} with melee attack");
+                enemy.TakeDamage(_damage);
+            }
+            SetCurrentHits(_currentHits + 1);
         }
     }
 }

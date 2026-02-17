@@ -2,10 +2,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(HealthComponent))]
 [RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(LimbSpawner))]
 public class TrainingTarget : Enemy
 {
     [SerializeField, Tooltip("Respawn time in seconds")] private float _respawnTime = 1f;
+
     private CapsuleCollider _capsuleCollider;
+    private LimbSpawner _limbSpawner;
 
     private void OnDrawGizmos()
     {
@@ -25,6 +28,7 @@ public class TrainingTarget : Enemy
     {
         base.Start();
         _capsuleCollider = GetComponent<CapsuleCollider>();
+        _limbSpawner = GetComponent<LimbSpawner>();
     }
 
     public override bool IsDead()
@@ -45,6 +49,7 @@ public class TrainingTarget : Enemy
     private void Die()
     {
         gameObject.SetActive(false);
+        _limbSpawner.SpawnLimb(transform.position, transform.rotation);
     }
 
     private void Respawn()

@@ -4,12 +4,14 @@ using UnityEngine;
 [RequireComponent(typeof(MovementController))]
 [RequireComponent(typeof(WeaponController))]
 [RequireComponent(typeof(MeleeController))]
+[RequireComponent(typeof(PickupController))]
 public class Player : MonoBehaviour
 {
     private MovementController _movementController;
     private LookController _lookController;
     private WeaponController _weaponController;
     private MeleeController _meleeController;
+    private PickupController _pickupController;
     private DefaultInputSystem _input;
 
     private void Awake()
@@ -20,6 +22,9 @@ public class Player : MonoBehaviour
         _lookController = GetComponent<LookController>();
         _weaponController = GetComponent<WeaponController>();
         _meleeController = GetComponent<MeleeController>();
+        _pickupController = GetComponent<PickupController>();
+
+        _meleeController.SetCurrentHits(_meleeController.MaxHits);
     }
 
     private void Update()
@@ -41,6 +46,23 @@ public class Player : MonoBehaviour
         _input.Player.Attack.performed += OnAttackPermormed;
         _input.Player.AttackAlternate.performed += OnAlternateAttackPerformed;
         _input.Player.MeleeAttack.performed += OnMeleeAttackPerformed;
+
+        _input.Player.Interact.performed += OnInteractPerformed;
+    }
+
+    public void TakeNewMelee()
+    {
+        _meleeController.SetCurrentHits(0);
+    }
+
+    private void OnInteractPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (_movementController.IsSprinting)
+        {
+            return;
+        }
+
+        _pickupController.PickUpCurrentItem();
     }
 
     private void OnMeleeAttackPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
