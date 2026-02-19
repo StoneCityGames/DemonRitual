@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour
         healthComponent = GetComponent<HealthComponent>();
     }
 
-    public abstract void TakeDamage(float damage);
+    public abstract void TakeDamage(float damage, Vector3 direction);
     public abstract bool IsDead();
 
     public abstract bool IsColliderVisibleFrom(Vector3 point, LayerMask obstacleMask);

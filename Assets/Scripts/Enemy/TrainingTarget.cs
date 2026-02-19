@@ -36,20 +36,20 @@ public class TrainingTarget : Enemy
         return !healthComponent.IsAlive();
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, Vector3 direction)
     {
         healthComponent.SetHealth(healthComponent.CurrentHealth - damage);
         if (IsDead())
         {
-            Die();
+            Die(direction);
             Invoke(nameof(Respawn), _respawnTime);
         }
     }
 
-    private void Die()
+    private void Die(Vector3 damageDirection)
     {
         gameObject.SetActive(false);
-        _limbSpawner.SpawnLimb(transform.position, transform.rotation);
+        _limbSpawner.SpawnLimb(transform.position, transform.rotation, damageDirection);
     }
 
     private void Respawn()

@@ -45,7 +45,7 @@ public class Crossbow : Weapon
             if (hitInfo.Collider.TryGetComponent(out Enemy enemy))
             {
                 Debug.Log($"Hit enemy {enemy}");
-                enemy.TakeDamage(_defaultMode.Damage);
+                enemy.TakeDamage(_defaultMode.Damage, _origin.forward);
             }
         }
 
@@ -68,7 +68,8 @@ public class Crossbow : Weapon
                 if (collider.TryGetComponent(out Enemy enemy) && enemy.IsColliderVisibleFrom(hitInfo.Point, _alternateMode.ObstacleLayerMask))
                 {
                     Debug.Log($"Hit enemy {enemy}");
-                    enemy.TakeDamage(_alternateMode.Damage);
+                    Vector3 direction = enemy.transform.position - hitInfo.Point;
+                    enemy.TakeDamage(_alternateMode.Damage, direction);
                 }
             }
 

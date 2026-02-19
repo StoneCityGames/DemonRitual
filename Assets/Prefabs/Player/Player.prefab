@@ -173,6 +173,7 @@ MonoBehaviour:
   _sounds:
     _missSound: {fileID: 8300000, guid: 2e595b2c35d136b43961c8fe63a2c62b, type: 3}
     _hitSound: {fileID: 8300000, guid: f9a72e6928ab36242aca85497314176a, type: 3}
+    _volumeScale: 3
 --- !u!114 &5211993421336451061
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1555,10 +1555,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1851353106993130496, guid: a3add0c59ff515f4493a02c0644939ef, type: 3}
-      propertyPath: _sounds._volumeScale
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 6657100319478514053, guid: a3add0c59ff515f4493a02c0644939ef, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
