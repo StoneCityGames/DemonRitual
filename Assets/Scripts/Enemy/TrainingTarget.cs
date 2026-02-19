@@ -24,7 +24,7 @@ public class TrainingTarget : Enemy
         }
     }
 
-    protected void Start()
+    protected new void Start()
     {
         base.Start();
         _capsuleCollider = GetComponent<CapsuleCollider>();
