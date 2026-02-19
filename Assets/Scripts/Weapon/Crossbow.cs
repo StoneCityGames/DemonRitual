@@ -4,39 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Explosion))]
 public class Crossbow : Weapon
 {
-    [Serializable]
-    private class CrossbowModeConfig
-    {
-        [SerializeField, Tooltip("An amount of damage that enemies will take")] private float _damage;
-        [SerializeField, Tooltip("Reload time in seconds")] private float _reloadTime;
-        [SerializeField, Tooltip("Max shot distance")] private float _maxDistance;
-        [SerializeField, Tooltip("The sound that will be played when a shot is fired")] private AudioClip _firingSound;
-        [SerializeField, Tooltip("Layer mask for raycasts")] private LayerMask _layerMask;
-
-        public float Damage { get { return _damage; } }
-        public float ReloadTime { get { return _reloadTime; } }
-        public float MaxDistance { get { return _maxDistance; } }
-        public AudioClip FiringSound { get { return _firingSound; } }
-        public LayerMask LayerMask { get { return _layerMask; } }
-    }
-
-    [Serializable]
-    private class CrossbowAlternateModeConfig : CrossbowModeConfig
-    {
-        [SerializeField, Tooltip("An area radius of explosion")] private float _explosionRadius = 3f;
-        [SerializeField, Tooltip("Layer mask of the obstacles")] private LayerMask _obstacleLayerMask;
-
-        public float ExplosionRadius { get { return _explosionRadius; } }
-        public LayerMask ObstacleLayerMask { get { return _obstacleLayerMask; } }
-    }
-
-    private struct HitInfo
-    {
-        public Vector3 Point;
-        public bool IsHit;
-        public Collider Collider;
-    }
-
     [SerializeField] private CrossbowModeConfig _defaultMode;
     [SerializeField] private CrossbowAlternateModeConfig _alternateMode;
     [SerializeField, Tooltip("An origin transform of a projectile")] private Transform _origin;
@@ -138,5 +105,38 @@ public class Crossbow : Weapon
             }
             _weaponTraces[i] = weaponTrace;
         }
+    }
+
+    [Serializable]
+    private class CrossbowModeConfig
+    {
+        [SerializeField, Tooltip("An amount of damage that enemies will take")] private float _damage;
+        [SerializeField, Tooltip("Reload time in seconds")] private float _reloadTime;
+        [SerializeField, Tooltip("Max shot distance")] private float _maxDistance;
+        [SerializeField, Tooltip("The sound that will be played when a shot is fired")] private AudioClip _firingSound;
+        [SerializeField, Tooltip("Layer mask for raycasts")] private LayerMask _layerMask;
+
+        public float Damage { get { return _damage; } }
+        public float ReloadTime { get { return _reloadTime; } }
+        public float MaxDistance { get { return _maxDistance; } }
+        public AudioClip FiringSound { get { return _firingSound; } }
+        public LayerMask LayerMask { get { return _layerMask; } }
+    }
+
+    [Serializable]
+    private class CrossbowAlternateModeConfig : CrossbowModeConfig
+    {
+        [SerializeField, Tooltip("An area radius of explosion")] private float _explosionRadius = 3f;
+        [SerializeField, Tooltip("Layer mask of the obstacles")] private LayerMask _obstacleLayerMask;
+
+        public float ExplosionRadius { get { return _explosionRadius; } }
+        public LayerMask ObstacleLayerMask { get { return _obstacleLayerMask; } }
+    }
+
+    private struct HitInfo
+    {
+        public Vector3 Point;
+        public bool IsHit;
+        public Collider Collider;
     }
 }
