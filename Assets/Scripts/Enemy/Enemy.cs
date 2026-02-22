@@ -12,6 +12,5 @@ public abstract class Enemy : MonoBehaviour
 
     public abstract void TakeDamage(float damage, Vector3 direction);
     public abstract bool IsDead();
-
     public abstract bool IsColliderVisibleFrom(Vector3 point, LayerMask obstacleMask);
 }

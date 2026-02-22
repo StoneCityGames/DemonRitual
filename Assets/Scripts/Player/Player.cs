@@ -53,6 +53,17 @@ public class Player : MonoBehaviour
         _input.Player.Interact.performed += OnInteractPerformed;
     }
 
+    private void OnDisable()
+    {
+        _input.Disable();
+
+        _input.Player.Sprint.started -= _lookController.OnSprintStarted;
+        _input.Player.Sprint.canceled -= _lookController.OnSprintCancelled;
+
+        _input.Player.Sprint.started -= _movementController.OnSprintStarted;
+        _input.Player.Sprint.canceled -= _movementController.OnSprintCanceled;
+    }
+
     public void TakeNewMelee()
     {
         _meleeController.SetCurrentHits(0);
@@ -96,18 +107,6 @@ public class Player : MonoBehaviour
         }
 
         _weaponController.Shoot();
-    }
-
-
-    private void OnDisable()
-    {
-        _input.Disable();
-
-        _input.Player.Sprint.started -= _lookController.OnSprintStarted;
-        _input.Player.Sprint.canceled -= _lookController.OnSprintCancelled;
-
-        _input.Player.Sprint.started -= _movementController.OnSprintStarted;
-        _input.Player.Sprint.canceled -= _movementController.OnSprintCanceled;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
