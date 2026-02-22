@@ -12,6 +12,7 @@ public class MeleeController : MonoBehaviour
     [SerializeField] private MeleeSounds _sounds;
 
     public int MaxHits { get { return _maxEnemyHits; } }
+    public event Action<bool> OnMeleeActivate;
 
     private int _currentEnemyHits = 0;
 
@@ -28,6 +29,9 @@ public class MeleeController : MonoBehaviour
     public void SetCurrentHits(int hits)
     {
         _currentEnemyHits = Mathf.Clamp(hits, 0, _maxEnemyHits);
+
+        bool isMeleeActive = _currentEnemyHits < _maxEnemyHits;
+        OnMeleeActivate?.Invoke(isMeleeActive);
     }
 
     private void AttackRaycast()

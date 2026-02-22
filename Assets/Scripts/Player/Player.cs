@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(WeaponController))]
 [RequireComponent(typeof(MeleeController))]
 [RequireComponent(typeof(PickupController))]
+[RequireComponent(typeof(HealthComponent))]
 public class Player : MonoBehaviour
 {
     private MovementController _movementController;
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     private WeaponController _weaponController;
     private MeleeController _meleeController;
     private PickupController _pickupController;
+    private HealthComponent _healthComponent;
     private DefaultInputSystem _input;
 
     private void Awake()
@@ -23,6 +25,7 @@ public class Player : MonoBehaviour
         _weaponController = GetComponent<WeaponController>();
         _meleeController = GetComponent<MeleeController>();
         _pickupController = GetComponent<PickupController>();
+        _healthComponent = GetComponent<HealthComponent>();
 
         _meleeController.SetCurrentHits(_meleeController.MaxHits);
     }

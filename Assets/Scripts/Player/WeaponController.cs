@@ -2,25 +2,30 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] private Weapon currentWeapon;
+    [SerializeField] private Weapon _currentWeapon;
+
+    public float ReloadTime => _currentWeapon.ReloadTime;
+    public float AlternateReloadTime => _currentWeapon.AlternateReloadTime;
+    public float LastShootTime => _currentWeapon.LastShootTime;
+    public float LastAlternateShootTime => _currentWeapon.LastAlternateShootTime;
 
     public void Shoot()
     {
-        if (!currentWeapon.CanShoot())
+        if (!_currentWeapon.CanShoot())
         {
             return;
         }
 
-        currentWeapon.Shoot();
+        _currentWeapon.Shoot();
     }
 
     public void ShootAlternate()
     {
-        if (!currentWeapon.CanShootAlternate())
+        if (!_currentWeapon.CanShootAlternate())
         {
             return;
         }
 
-        currentWeapon.ShootAlternate();
+        _currentWeapon.ShootAlternate();
     }
 }

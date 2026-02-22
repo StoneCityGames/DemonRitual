@@ -18,6 +18,14 @@ public class Crossbow : Weapon
     private Explosion _explosion;
     private int _currentWeaponTraceIndex = 0;
 
+    public override float ReloadTime => _defaultMode.ReloadTime;
+
+    public override float AlternateReloadTime => _alternateMode.ReloadTime;
+
+    public override float LastShootTime => _lastDefaultModeShootTime;
+
+    public override float LastAlternateShootTime => _lastAlternateModeShootTime;
+
     private void Start()
     {
         _explosion = GetComponent<Explosion>();
