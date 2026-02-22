@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class HealthComponent : MonoBehaviour
 {
-    public event Action<float> OnHealthChanged;
-
     [SerializeField] private float _maxHealth;
-    private float _currentHealth;
 
+    public event Action<float> OnHealthChanged;
     public float CurrentHealth { get { return _currentHealth; } }
     public float MaxHealth { get { return _maxHealth; } }
+
+    private float _currentHealth;
 
     private void Awake()
     {
@@ -21,14 +21,14 @@ public class HealthComponent : MonoBehaviour
         return _currentHealth > 0f;
     }
 
+    public void ResetHealth()
+    {
+        SetHealth(_maxHealth);
+    }
+
     public void SetHealth(float health)
     {
         _currentHealth = Mathf.Clamp(health, 0f, _maxHealth);
         OnHealthChanged?.Invoke(_currentHealth);
-    }
-
-    public void ResetHealth()
-    {
-        _currentHealth = _maxHealth;
     }
 }
