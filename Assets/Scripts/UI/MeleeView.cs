@@ -62,6 +62,7 @@ public class MeleeView : MonoBehaviour
 
         _scaleTween.Kill();
         _colorTween.Kill();
+        _scaleTween = _colorTween = null;
 
         _animatedUI.DOScale(new Vector3(1f, 1f, 1f), _animationFallBackDuration);
         _animatedImage.DOColor(_initialAnimationColor, _animationFallBackDuration);
