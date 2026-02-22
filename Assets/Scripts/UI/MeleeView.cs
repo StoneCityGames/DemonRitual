@@ -5,6 +5,8 @@ public class MeleeView : MonoBehaviour
 {
     [SerializeField] private MeleeController _meleeController;
     [SerializeField] private Transform _meleeUI;
+    [SerializeField] private float _animationDuration = 2f;
+    [SerializeField] private float _animationFallBackDuration = 1f;
 
     private Tweener _tween = null;
 
@@ -37,7 +39,7 @@ public class MeleeView : MonoBehaviour
             return;
         }
 
-        _tween = _meleeUI.DOScale(new Vector3(1.5f, 1.5f, 1.5f), 2f).SetLoops(-1, LoopType.Yoyo);
+        _tween = _meleeUI.DOScale(new Vector3(1.5f, 1.5f, 1.5f), _animationDuration).SetLoops(-1, LoopType.Yoyo);
     }
 
     private void StopAnimation()
@@ -48,6 +50,6 @@ public class MeleeView : MonoBehaviour
         }
 
         _tween.Kill();
-        _meleeUI.DOScale(new Vector3(1f, 1f, 1f), 1f);
+        _meleeUI.DOScale(new Vector3(1f, 1f, 1f), _animationFallBackDuration);
     }
 }
