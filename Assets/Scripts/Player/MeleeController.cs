@@ -40,7 +40,7 @@ public class MeleeController : MonoBehaviour
         if (isHit && hitInfo.collider.gameObject.TryGetComponent(out Enemy enemy))
         {
             Debug.Log($"Hit enemy {enemy} with melee attack");
-            enemy.TakeDamage(_damage, _camera.transform.forward);
+            enemy.TakeDamage(_damage, _camera.transform.forward, false);
             SetCurrentHits(_currentEnemyHits + 1);
             _audioSource.PlayOneShot(_sounds.HitSound, _sounds.VolumeScale);
         }

@@ -8,5 +8,6 @@ public class PlayerConfig : ScriptableObject
     public float MouseSensitivity
     {
         get { return _mouseSensitivity; }
+        set { _mouseSensitivity = value; }
     }
 }
