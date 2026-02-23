@@ -11,16 +11,20 @@ public class Settings : MonoBehaviour
     [SerializeField] private SettingInput _volumeSettingInput;
     [SerializeField] private Button _quitButton;
 
+    private const string FOV_PREF_KEY = "FOV";
+    private const string SENS_PREF_KEY = "SENSITIVITY";
+    private const string VOLUME_PREF_KEY = "VOLUME";
+
     private void OnEnable()
     {
-        _fovSettingInput.SetValue(_camera.fieldOfView);
-        _sensitivitySettingInput.SetValue(_playerConfig.MouseSensitivity);
-        _volumeSettingInput.SetValue(GetVolume());
-
         _fovSettingInput.OnValueChanged += OnFovChanged;
         _sensitivitySettingInput.OnValueChanged += OnSensitivityChanged;
         _volumeSettingInput.OnValueChanged += OnVolumeChanged;
         _quitButton.onClick.AddListener(OnQuit);
+
+        _fovSettingInput.SetValue(_camera.fieldOfView);
+        _sensitivitySettingInput.SetValue(_playerConfig.MouseSensitivity);
+        _volumeSettingInput.SetValue(GetVolume());
     }
 
     private void OnDisable()
@@ -29,6 +33,24 @@ public class Settings : MonoBehaviour
         _sensitivitySettingInput.OnValueChanged -= OnSensitivityChanged;
         _volumeSettingInput.OnValueChanged -= OnVolumeChanged;
         _quitButton.onClick.RemoveListener(OnQuit);
+    }
+
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetFloat(FOV_PREF_KEY, _camera.fieldOfView);
+        PlayerPrefs.SetFloat(SENS_PREF_KEY, _playerConfig.MouseSensitivity);
+        PlayerPrefs.SetFloat(VOLUME_PREF_KEY, GetVolume());
+    }
+
+    public void LoadPrefs()
+    {
+        float savedFov = PlayerPrefs.GetFloat(FOV_PREF_KEY, float.MaxValue);
+        float savedSens = PlayerPrefs.GetFloat(SENS_PREF_KEY, float.MaxValue);
+        float savedVolume = PlayerPrefs.GetFloat(VOLUME_PREF_KEY, float.MaxValue);
+
+        _camera.fieldOfView = savedFov;
+        _playerConfig.MouseSensitivity = savedSens;
+        SetVolume(savedVolume);
     }
 
     private void OnFovChanged(float value)

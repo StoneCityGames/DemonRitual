@@ -219,6 +219,17 @@ Transform:
   - {fileID: 2040075091}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &257008260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5441673723881601463, guid: a3add0c59ff515f4493a02c0644939ef, type: 3}
+  m_PrefabInstance: {fileID: 6615989088839096680}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121426a9bd4920143932ac60a2247e53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Settings
 --- !u!1001 &262881130
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1486,6 +1497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ec29a81d4d88374c828feca39c7b4b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameController
+  _settings: {fileID: 257008260}
 --- !u!1001 &873514430107008513
 PrefabInstance:
   m_ObjectHideFlags: 0
