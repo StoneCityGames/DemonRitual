@@ -7,8 +7,8 @@ public class PickupController : MonoBehaviour
     [SerializeField] private float _distance;
     [SerializeField] private LayerMask _layer;
 
-    IPickup _currentPickup = null;
-    Player _player;
+    private IPickup _currentPickup = null;
+    private Player _player;
 
     private void Start()
     {
