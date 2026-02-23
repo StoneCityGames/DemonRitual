@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(PickupController))]
 [RequireComponent(typeof(HealthComponent))]
 [RequireComponent(typeof(UIController))]
+[RequireComponent(typeof(CameraController))]
 public class Player : MonoBehaviour
 {
     [SerializeField] private GameController _gameController;
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     private PickupController _pickupController;
     private HealthComponent _healthComponent;
     private UIController _uiController;
+    private CameraController _cameraController;
     private DefaultInputSystem _input;
 
     private void Awake()
@@ -31,6 +33,7 @@ public class Player : MonoBehaviour
         _pickupController = GetComponent<PickupController>();
         _healthComponent = GetComponent<HealthComponent>();
         _uiController = GetComponent<UIController>();
+        _cameraController = GetComponent<CameraController>();
 
         _meleeController.SetCurrentHits(_meleeController.MaxHits);
     }
@@ -43,7 +46,7 @@ public class Player : MonoBehaviour
         }
 
         _lookController.Think(_input);
-        _movementController.Think(_input);
+        _movementController.Think(_input, _cameraController.IsZoomed);
     }
 
     private void OnEnable()
@@ -69,30 +72,26 @@ public class Player : MonoBehaviour
 
     private void BindPlayerControls()
     {
-        _input.Player.Sprint.started += _lookController.OnSprintStarted;
-        _input.Player.Sprint.canceled += _lookController.OnSprintCancelled;
-
-        _input.Player.Sprint.started += _movementController.OnSprintStarted;
-        _input.Player.Sprint.canceled += _movementController.OnSprintCanceled;
+        _input.Player.Sprint.started += OnSprintStarted;
+        _input.Player.Sprint.canceled += OnSprintCanceled;
 
         _input.Player.Attack.performed += OnAttackPermormed;
         _input.Player.AttackAlternate.performed += OnAlternateAttackPerformed;
         _input.Player.MeleeAttack.performed += OnMeleeAttackPerformed;
+        _input.Player.Zoom.performed += OnZoomPerformed;
 
         _input.Player.Interact.performed += OnInteractPerformed;
     }
 
     private void UnbindPlayerControls()
     {
-        _input.Player.Sprint.started -= _lookController.OnSprintStarted;
-        _input.Player.Sprint.canceled -= _lookController.OnSprintCancelled;
-
-        _input.Player.Sprint.started -= _movementController.OnSprintStarted;
-        _input.Player.Sprint.canceled -= _movementController.OnSprintCanceled;
+        _input.Player.Sprint.started -= OnSprintStarted;
+        _input.Player.Sprint.canceled -= OnSprintCanceled;
 
         _input.Player.Attack.performed -= OnAttackPermormed;
         _input.Player.AttackAlternate.performed -= OnAlternateAttackPerformed;
         _input.Player.MeleeAttack.performed -= OnMeleeAttackPerformed;
+        _input.Player.Zoom.performed -= OnZoomPerformed;
 
         _input.Player.Interact.performed -= OnInteractPerformed;
     }
@@ -119,7 +118,7 @@ public class Player : MonoBehaviour
 
     private void OnMeleeAttackPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
     {
-        if (_movementController.IsSprinting)
+        if (_movementController.IsSprinting || _cameraController.IsZoomed)
         {
             return;
         }
@@ -145,6 +144,33 @@ public class Player : MonoBehaviour
         }
 
         _weaponController.Shoot();
+    }
+
+    private void OnZoomPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (_movementController.IsSprinting)
+        {
+            return;
+        }
+
+        _cameraController.Zoom();
+    }
+
+    private void OnSprintStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        if (_cameraController.IsZoomed)
+        {
+            return;
+        }
+
+        _lookController.StartSprint();
+        _movementController.StartSprint();
+    }
+
+    private void OnSprintCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    {
+        _lookController.CancelSprint();
+        _movementController.CancelSprint();
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)

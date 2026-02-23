@@ -24,12 +24,12 @@ public class LookController : MonoBehaviour
         _body.rotation = Quaternion.Euler(0.0f, _rotationAngles.y, 0.0f);
     }
 
-    public void OnSprintStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void StartSprint()
     {
         _mouseSensitivityMultiplier = _sprintMouseSensitivityMultiplier;
     }
 
-    public void OnSprintCancelled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void CancelSprint()
     {
         _mouseSensitivityMultiplier = 1f;
     }

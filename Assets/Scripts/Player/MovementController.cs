@@ -48,7 +48,7 @@ public class MovementController : MonoBehaviour
     private bool _wantsToSprint = false;
     private Vector2 _moveInput = Vector2.zero;
 
-    public void Think(DefaultInputSystem input)
+    public void Think(DefaultInputSystem input, bool isZoomed)
     {
         _moveInput = input.Player.Move.ReadValue<Vector2>();
         Vector3 wishDir = _body.forward * _moveInput.y + _body.right * _moveInput.x;
@@ -56,7 +56,7 @@ public class MovementController : MonoBehaviour
 
         UpdateMovementState();
 
-        if (input.Player.Jump.WasPerformedThisFrame())
+        if (input.Player.Jump.WasPerformedThisFrame() && !isZoomed)
         {
             _wantsToJump = true;
         }
@@ -79,12 +79,12 @@ public class MovementController : MonoBehaviour
         HandleCeilingCollision(hit);
     }
 
-    public void OnSprintStarted(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void StartSprint()
     {
         _wantsToSprint = true;
     }
 
-    public void OnSprintCanceled(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    public void CancelSprint()
     {
         _wantsToSprint = false;
     }

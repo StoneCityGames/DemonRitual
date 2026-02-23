@@ -7,6 +7,7 @@ public class MeleeController : MonoBehaviour
     [SerializeField] private float _damage = 100f;
     [SerializeField] private float _distance = 3f;
     [SerializeField] private int _maxEnemyHits = 1;
+    [SerializeField] private float _coolDownSeconds = 0.5f;
     [SerializeField] private LayerMask _hitLayer;
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private MeleeSounds _sounds;
@@ -15,6 +16,7 @@ public class MeleeController : MonoBehaviour
     public event Action<bool> OnMeleeActivate;
 
     private int _currentEnemyHits = 0;
+    private float _lastAttackTime = 0f;
 
     public void Attack()
     {
@@ -36,6 +38,11 @@ public class MeleeController : MonoBehaviour
 
     private void AttackRaycast()
     {
+        if (Time.time - _lastAttackTime < _coolDownSeconds)
+        {
+            return;
+        }
+
         bool isHit = Physics.Raycast(_camera.transform.position, _camera.transform.forward, out RaycastHit hitInfo, _distance, _hitLayer);
         if (isHit && hitInfo.collider.gameObject.TryGetComponent(out Enemy enemy))
         {
@@ -48,6 +55,8 @@ public class MeleeController : MonoBehaviour
         {
             _audioSource.PlayOneShot(_sounds.MissSound, _sounds.VolumeScale);
         }
+
+        _lastAttackTime = Time.time;
     }
 
     [Serializable]

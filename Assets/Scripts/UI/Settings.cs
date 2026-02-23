@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
-    [SerializeField] private Camera _camera;
+    [SerializeField] private CameraController _camera;
     [SerializeField] private PlayerConfig _playerConfig;
 
     [SerializeField] private SettingInput _fovSettingInput;
@@ -22,7 +22,7 @@ public class Settings : MonoBehaviour
         _volumeSettingInput.OnValueChanged += OnVolumeChanged;
         _quitButton.onClick.AddListener(OnQuit);
 
-        _fovSettingInput.SetValue(_camera.fieldOfView);
+        _fovSettingInput.SetValue(_camera.GetFOV());
         _sensitivitySettingInput.SetValue(_playerConfig.MouseSensitivity);
         _volumeSettingInput.SetValue(GetVolume());
     }
@@ -37,25 +37,34 @@ public class Settings : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetFloat(FOV_PREF_KEY, _camera.fieldOfView);
+        PlayerPrefs.SetFloat(FOV_PREF_KEY, _camera.GetFOV());
         PlayerPrefs.SetFloat(SENS_PREF_KEY, _playerConfig.MouseSensitivity);
         PlayerPrefs.SetFloat(VOLUME_PREF_KEY, GetVolume());
     }
 
     public void LoadPrefs()
     {
-        float savedFov = PlayerPrefs.GetFloat(FOV_PREF_KEY, float.MaxValue);
-        float savedSens = PlayerPrefs.GetFloat(SENS_PREF_KEY, float.MaxValue);
-        float savedVolume = PlayerPrefs.GetFloat(VOLUME_PREF_KEY, float.MaxValue);
+        float savedFov = PlayerPrefs.GetFloat(FOV_PREF_KEY, float.MinValue);
+        float savedSens = PlayerPrefs.GetFloat(SENS_PREF_KEY, float.MinValue);
+        float savedVolume = PlayerPrefs.GetFloat(VOLUME_PREF_KEY, float.MinValue);
 
-        _camera.fieldOfView = savedFov;
-        _playerConfig.MouseSensitivity = savedSens;
-        SetVolume(savedVolume);
+        if (savedFov != float.MinValue)
+        {
+            _camera.SetFOV(savedFov);
+        }
+        if (savedSens != float.MinValue)
+        {
+            _playerConfig.MouseSensitivity = savedSens;
+        }
+        if (savedVolume != float.MinValue)
+        {
+            SetVolume(savedVolume);
+        }
     }
 
     private void OnFovChanged(float value)
     {
-        _camera.fieldOfView = value;
+        _camera.SetFOV(value);
     }
 
     private void OnSensitivityChanged(float value)

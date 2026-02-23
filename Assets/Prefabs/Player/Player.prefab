@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 1851353106993130496}
   - component: {fileID: 5211993421336451061}
   - component: {fileID: 7980230292004483958}
+  - component: {fileID: 4430647244500957737}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -207,6 +208,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIController
   _hud: {fileID: 8992103033574133277}
   _menu: {fileID: 6957362666706142076}
+--- !u!114 &4430647244500957737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270517572440695480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d7186a9916fee43a38d407d24e38f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraController
+  _camera: {fileID: 978767273357577172}
+  _zoomFactor: 2
 --- !u!1 &999844540393894567
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,7 +1632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 121426a9bd4920143932ac60a2247e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Settings
-  _camera: {fileID: 978767273357577172}
+  _camera: {fileID: 4430647244500957737}
   _playerConfig: {fileID: 11400000, guid: ebfc0f585ae9be74480bb5d285a83fd8, type: 2}
   _fovSettingInput: {fileID: 6900967975189436194}
   _sensitivitySettingInput: {fileID: 2660817248041638655}
