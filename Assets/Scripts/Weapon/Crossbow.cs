@@ -19,12 +19,11 @@ public class Crossbow : Weapon
     private int _currentWeaponTraceIndex = 0;
 
     public override float ReloadTime => _defaultMode.ReloadTime;
-
     public override float AlternateReloadTime => _alternateMode.ReloadTime;
-
     public override float LastShootTime => _lastDefaultModeShootTime;
-
     public override float LastAlternateShootTime => _lastAlternateModeShootTime;
+    public override uint Ammo => _defaultMode.Ammo;
+    public override uint AlternateAmmo => _alternateMode.Ammo;
 
     private void Start()
     {
@@ -35,12 +34,12 @@ public class Crossbow : Weapon
 
     public override bool CanShoot()
     {
-        return Time.time - _lastDefaultModeShootTime > _defaultMode.ReloadTime;
+        return Time.time - _lastDefaultModeShootTime > _defaultMode.ReloadTime && _defaultMode.Ammo > 0;
     }
 
     public override bool CanShootAlternate()
     {
-        return Time.time - _lastAlternateModeShootTime > _alternateMode.ReloadTime;
+        return Time.time - _lastAlternateModeShootTime > _alternateMode.ReloadTime && _alternateMode.Ammo > 0;
     }
 
     public override void Shoot()
@@ -60,6 +59,7 @@ public class Crossbow : Weapon
         DrawTrace(_traceOrigin.position, hitInfo.Point);
 
         _lastDefaultModeShootTime = Time.time;
+        SetAmmo(_defaultMode.Ammo - 1);
     }
 
     public override void ShootAlternate()
@@ -87,6 +87,19 @@ public class Crossbow : Weapon
         DrawTrace(_traceOrigin.position, hitInfo.Point);
 
         _lastAlternateModeShootTime = Time.time;
+        SetAlternateAmmo(_alternateMode.Ammo - 1);
+    }
+
+    private void SetAmmo(uint ammo)
+    {
+        _defaultMode.Ammo = Math.Max(ammo, 0);
+        InvokeAmmoChangedEvent(_defaultMode.Ammo);
+    }
+
+    private void SetAlternateAmmo(uint ammo)
+    {
+        _alternateMode.Ammo = Math.Max(ammo, 0);
+        InvokeAlternateAmmoChangedEvent(_alternateMode.Ammo);
     }
 
     private HitInfo TraceShot(CrossbowModeConfig mode)
@@ -122,14 +135,17 @@ public class Crossbow : Weapon
         [SerializeField, Tooltip("An amount of damage that enemies will take")] private float _damage;
         [SerializeField, Tooltip("Reload time in seconds")] private float _reloadTime;
         [SerializeField, Tooltip("Max shot distance")] private float _maxDistance;
+        [SerializeField, Tooltip("Current ammo count")] private uint _ammo;
         [SerializeField, Tooltip("The sound that will be played when a shot is fired")] private AudioClip _firingSound;
         [SerializeField, Tooltip("Layer mask for raycasts")] private LayerMask _layerMask;
 
         public float Damage { get { return _damage; } }
         public float ReloadTime { get { return _reloadTime; } }
         public float MaxDistance { get { return _maxDistance; } }
+        public uint Ammo { get { return _ammo; } set { _ammo = value; } }
         public AudioClip FiringSound { get { return _firingSound; } }
         public LayerMask LayerMask { get { return _layerMask; } }
+
     }
 
     [Serializable]
