@@ -108,6 +108,7 @@ public class Crossbow : Weapon
         return new HitInfo { Collider = hitInfo.collider, IsHit = isHit, Point = isHit ? hitInfo.point : _origin.position + _origin.forward * mode.MaxDistance };
     }
 
+    // TODO: refactor, move drawing to WeaponTraceManager
     private void DrawTrace(Vector3 start, Vector3 end)
     {
         WeaponTrace trace = _weaponTraces[_currentWeaponTraceIndex];
@@ -115,6 +116,7 @@ public class Crossbow : Weapon
         _currentWeaponTraceIndex = (_currentWeaponTraceIndex + 1) % _weaponTraces.Length;
     }
 
+    // TODO: refactor, move allocation to WeaponTraceManager
     private void AllocateWeaponTraces()
     {
         for (int i = 0; i < _weaponTraces.Length; i++)

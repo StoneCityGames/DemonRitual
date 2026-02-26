@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: Refactor
 public class Settings : MonoBehaviour
 {
     [SerializeField] private CameraController _camera;
