@@ -306,6 +306,7 @@ MonoBehaviour:
     _reloadTime: 0.6
     _maxDistance: 50
     _ammo: 10
+    _maxAmmo: 100
     _firingSound: {fileID: 8300000, guid: c226667a44c75b849b9f0a846fe69e96, type: 3}
     _layerMask:
       serializedVersion: 2
@@ -315,6 +316,7 @@ MonoBehaviour:
     _reloadTime: 1.5
     _maxDistance: 50
     _ammo: 5
+    _maxAmmo: 20
     _firingSound: {fileID: 8300000, guid: c226667a44c75b849b9f0a846fe69e96, type: 3}
     _layerMask:
       serializedVersion: 2

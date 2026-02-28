@@ -5,7 +5,7 @@ public abstract class Enemy : MonoBehaviour
 {
     protected HealthComponent healthComponent;
 
-    protected void Start()
+    protected virtual void Start()
     {
         healthComponent = GetComponent<HealthComponent>();
     }

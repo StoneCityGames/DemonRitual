@@ -26,5 +26,7 @@ public abstract class Weapon : MonoBehaviour
     public abstract float LastShootTime { get; }
     public abstract float LastAlternateShootTime { get; }
     public abstract uint Ammo { get; }
+    public abstract uint MaxAmmo { get; }
     public abstract uint AlternateAmmo { get; }
+    public abstract uint MaxAlternateAmmo { get; }
 }

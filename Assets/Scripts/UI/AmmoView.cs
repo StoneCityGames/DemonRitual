@@ -9,8 +9,8 @@ public class AmmoView : MonoBehaviour
 
     private void Start()
     {
-        _ammoText.text = _weaponController.Ammo.ToString();
-        _alternateAmmoText.text = _weaponController.AlternateAmmo.ToString();
+        SetAmmoText(_weaponController.Ammo, _weaponController.MaxAmmo);
+        SetAlternateAmmoText(_weaponController.AlternateAmmo, _weaponController.MaxAlternateAmmo);
     }
 
     private void OnEnable()
@@ -27,11 +27,21 @@ public class AmmoView : MonoBehaviour
 
     private void OnAmmoChanged(uint ammo)
     {
-        _ammoText.text = ammo.ToString();
+        SetAmmoText(ammo, _weaponController.MaxAmmo);
     }
 
     private void OnAlternateAmmoChanged(uint ammo)
     {
-        _alternateAmmoText.text = ammo.ToString();
+        SetAlternateAmmoText(ammo, _weaponController.MaxAlternateAmmo);
+    }
+
+    private void SetAmmoText(uint ammo, uint maxAmmo)
+    {
+        _ammoText.text = $"{ammo}/{maxAmmo}";
+    }
+
+    private void SetAlternateAmmoText(uint ammo, uint maxAmmo)
+    {
+        _alternateAmmoText.text = $"{ammo}/{maxAmmo}";
     }
 }

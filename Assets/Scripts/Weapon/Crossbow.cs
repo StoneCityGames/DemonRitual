@@ -24,10 +24,15 @@ public class Crossbow : Weapon
     public override float LastAlternateShootTime => _lastAlternateModeShootTime;
     public override uint Ammo => _defaultMode.Ammo;
     public override uint AlternateAmmo => _alternateMode.Ammo;
+    public override uint MaxAmmo => _defaultMode.MaxAmmo;
+    public override uint MaxAlternateAmmo => _alternateMode.MaxAmmo;
 
     private void Start()
     {
         _explosion = GetComponent<Explosion>();
+
+        SetAmmo(_defaultMode.Ammo);
+        SetAlternateAmmo(_alternateMode.Ammo);
 
         AllocateWeaponTraces();
     }
@@ -90,15 +95,15 @@ public class Crossbow : Weapon
         SetAlternateAmmo(_alternateMode.Ammo - 1);
     }
 
-    private void SetAmmo(uint ammo)
+    public void SetAmmo(uint ammo)
     {
-        _defaultMode.Ammo = Math.Max(ammo, 0);
+        _defaultMode.Ammo = Math.Clamp(ammo, 0, _defaultMode.MaxAmmo);
         InvokeAmmoChangedEvent(_defaultMode.Ammo);
     }
 
-    private void SetAlternateAmmo(uint ammo)
+    public void SetAlternateAmmo(uint ammo)
     {
-        _alternateMode.Ammo = Math.Max(ammo, 0);
+        _alternateMode.Ammo = Math.Clamp(ammo, 0, _alternateMode.MaxAmmo);
         InvokeAlternateAmmoChangedEvent(_alternateMode.Ammo);
     }
 
@@ -138,6 +143,7 @@ public class Crossbow : Weapon
         [SerializeField, Tooltip("Reload time in seconds")] private float _reloadTime;
         [SerializeField, Tooltip("Max shot distance")] private float _maxDistance;
         [SerializeField, Tooltip("Current ammo count")] private uint _ammo;
+        [SerializeField, Tooltip("Max ammo count")] private uint _maxAmmo;
         [SerializeField, Tooltip("The sound that will be played when a shot is fired")] private AudioClip _firingSound;
         [SerializeField, Tooltip("Layer mask for raycasts")] private LayerMask _layerMask;
 
@@ -145,9 +151,9 @@ public class Crossbow : Weapon
         public float ReloadTime { get { return _reloadTime; } }
         public float MaxDistance { get { return _maxDistance; } }
         public uint Ammo { get { return _ammo; } set { _ammo = value; } }
+        public uint MaxAmmo { get { return _maxAmmo; } }
         public AudioClip FiringSound { get { return _firingSound; } }
         public LayerMask LayerMask { get { return _layerMask; } }
-
     }
 
     [Serializable]

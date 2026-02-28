@@ -13,6 +13,8 @@ public class WeaponController : MonoBehaviour
     public float LastAlternateShootTime => _currentWeapon.LastAlternateShootTime;
     public uint Ammo => _currentWeapon.Ammo;
     public uint AlternateAmmo => _currentWeapon.AlternateAmmo;
+    public uint MaxAmmo => _currentWeapon.MaxAmmo;
+    public uint MaxAlternateAmmo => _currentWeapon.MaxAlternateAmmo;
 
     public void Shoot()
     {
@@ -32,5 +34,10 @@ public class WeaponController : MonoBehaviour
         }
 
         _currentWeapon.ShootAlternate();
+    }
+
+    public Crossbow GetCrossbow()
+    {
+        return _crossbow;
     }
 }
