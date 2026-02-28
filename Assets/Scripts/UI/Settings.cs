@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-// TODO: Refactor
 public class Settings : MonoBehaviour
 {
     [SerializeField] private CameraController _camera;
@@ -11,10 +10,6 @@ public class Settings : MonoBehaviour
     [SerializeField] private SettingInput _sensitivitySettingInput;
     [SerializeField] private SettingInput _volumeSettingInput;
     [SerializeField] private Button _quitButton;
-
-    private const string FOV_PREF_KEY = "FOV";
-    private const string SENS_PREF_KEY = "SENSITIVITY";
-    private const string VOLUME_PREF_KEY = "VOLUME";
 
     private void OnEnable()
     {
@@ -34,33 +29,39 @@ public class Settings : MonoBehaviour
         _sensitivitySettingInput.OnValueChanged -= OnSensitivityChanged;
         _volumeSettingInput.OnValueChanged -= OnVolumeChanged;
         _quitButton.onClick.RemoveListener(OnQuit);
+        SavePrefs();
     }
 
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetFloat(FOV_PREF_KEY, _camera.GetFOV());
-        PlayerPrefs.SetFloat(SENS_PREF_KEY, _playerConfig.MouseSensitivity);
-        PlayerPrefs.SetFloat(VOLUME_PREF_KEY, GetVolume());
+        SavePrefs();
     }
 
     public void LoadPrefs()
     {
-        float savedFov = PlayerPrefs.GetFloat(FOV_PREF_KEY, float.MinValue);
-        float savedSens = PlayerPrefs.GetFloat(SENS_PREF_KEY, float.MinValue);
-        float savedVolume = PlayerPrefs.GetFloat(VOLUME_PREF_KEY, float.MinValue);
+        SettingsUtils.PlayerSettings settings = SettingsUtils.ReadPlayerSettings();
+        if (float.IsFinite(settings.Fov))
+        {
+            _camera.SetFOV(settings.Fov);
+        }
+        if (float.IsFinite(settings.MouseSens))
+        {
+            _playerConfig.MouseSensitivity = settings.MouseSens;
+        }
+        if (float.IsFinite(settings.SoundVolume))
+        {
+            SetVolume(settings.SoundVolume);
+        }
+    }
 
-        if (savedFov != float.MinValue)
+    private void SavePrefs()
+    {
+        SettingsUtils.SavePlayerSettings(new SettingsUtils.PlayerSettings
         {
-            _camera.SetFOV(savedFov);
-        }
-        if (savedSens != float.MinValue)
-        {
-            _playerConfig.MouseSensitivity = savedSens;
-        }
-        if (savedVolume != float.MinValue)
-        {
-            SetVolume(savedVolume);
-        }
+            Fov = _camera.GetFOV(),
+            MouseSens = _playerConfig.MouseSensitivity,
+            SoundVolume = GetVolume()
+        });
     }
 
     private void OnFovChanged(float value)
